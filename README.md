@@ -32,6 +32,11 @@ En local : `python scripts/benchmark.py --mois 2026-10`.
 `scripts/lighthouse.py` lance chaque mois Lighthouse via l'API PageSpeed Insights de Google (preset desktop ; certains sites bloquent les serveurs GitHub, la mesure est donc faite depuis les serveurs de Google) sur la page d'accueil d'aquagir et des sites comparables, 3 passages par page, médiane retenue. Même mesure pour tous les sites, donc comparaison directe.
 Sorties : `resultats/lighthouse_AAAA-MM.md`, `.json` et `lighthouse_historique.csv`. Pages mesurées : `config.json` → `lighthouse`. Clé API facultative : secret `PSI_API_KEY`.
 
+## Contenu des sites (sitemaps) et expérience réelle (CrUX)
+
+- `scripts/sitemaps.py` lit le sitemap public de chaque site : nombre de pages, pages modifiées sur 30 et 90 jours, principales rubriques. Sorties : `resultats/sitemaps_AAAA-MM.md`, `.json`, `sitemaps_historique.csv`.
+- Le rapport Lighthouse inclut les données terrain de Chrome (CrUX, 28 jours) quand Google les publie (trafic suffisant).
+
 ## Repère Matomo
 
 `scripts/repere_matomo.py` récupère les statistiques publiques de collectivite.fr (Annuaire des collectivités) sur le Matomo de beta.gouv (accès anonyme). Ce n'est pas un site comparable (annuaire), mais un repère mesuré avec le même outil qu'aquagir, pour situer l'écart de mesure Eulerian / Matomo.

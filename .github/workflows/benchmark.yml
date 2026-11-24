@@ -42,6 +42,9 @@ jobs:
         env:
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}   # optionnel : augmente le quota PageSpeed Insights
         run: python scripts/lighthouse.py
+      - name: Contenu des sites (sitemaps)
+        continue-on-error: true
+        run: python scripts/sitemaps.py
       - name: Enregistrement des résultats
         run: |
           git config user.name "github-actions[bot]"

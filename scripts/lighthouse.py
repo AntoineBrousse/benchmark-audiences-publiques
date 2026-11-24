@@ -92,9 +92,30 @@ def lancer(url, preset, dest):
         if not r.ok:
             raise RuntimeError(f"PageSpeed Insights HTTP {r.status_code} : {r.text[:200]}")
         break
-    rapport = r.json()["lighthouseResult"]
+    reponse = r.json()
+    rapport = reponse["lighthouseResult"]
+    rapport["_crux"] = reponse.get("originLoadingExperience") or {}
     Path(dest).write_text(json.dumps(rapport), encoding="utf-8")
     return rapport
+
+
+CRUX = {"LARGEST_CONTENTFUL_PAINT_MS": ("Affichage (LCP)", lambda v: f"{v / 1000:.1f} s"),
+        "INTERACTION_TO_NEXT_PAINT": ("Réactivité (INP)", lambda v: f"{v:.0f} ms"),
+        "CUMULATIVE_LAYOUT_SHIFT_SCORE": ("Stabilité (CLS)", lambda v: f"{v / 100:.2f}")}
+VERDICT = {"FAST": "bon", "AVERAGE": "à améliorer", "SLOW": "mauvais"}
+
+
+def crux(rapport):
+    """Données terrain Chrome (CrUX, 28 jours, origine du site) ; None si trafic insuffisant."""
+    exp = rapport.get("_crux") or {}
+    if not exp.get("metrics"):
+        return None
+    out = {"verdict_global": VERDICT.get(exp.get("overall_category"), exp.get("overall_category"))}
+    for cle, (nom, _) in CRUX.items():
+        m = exp["metrics"].get(cle)
+        if m:
+            out[nom] = {"p75": m.get("percentile"), "verdict": VERDICT.get(m.get("category"), m.get("category"))}
+    return out
 
 
 def mediane(mesures):
@@ -117,7 +138,7 @@ def main():
     tmp = RACINE / "donnees" / "lighthouse"
     tmp.mkdir(parents=True, exist_ok=True)
     for site, urls in cfg["sites"].items():
-        mesures, ratees = [], []
+        mesures, ratees, terrain = [], [], None
         for url in urls:
             for i in range(cfg["passages"]):
                 try:
@@ -128,11 +149,12 @@ def main():
                         rapport = lancer(url, cfg["preset"], tmp / f"{site}__{i}.json")
                     mesures.append(extraire(rapport))
                     ratees.append(verifications_ratees(rapport))
+                    terrain = terrain or crux(rapport)
                 except Exception as e:  # un site injoignable ne bloque pas les autres
                     print(f"ATTENTION : {url} passage {i + 1} : {e}", file=sys.stderr)
         if mesures:
             lignes.append({"site": site, "passages": len(mesures), **mediane(mesures),
-                           "verifications_ratees": ratees_majoritaires(ratees)})
+                           "verifications_ratees": ratees_majoritaires(ratees), "crux": terrain})
         else:
             echecs.append(site)
 
@@ -140,7 +162,7 @@ def main():
         print("ERREUR : aucune mesure Lighthouse réussie", file=sys.stderr)
         sys.exit(1)
 
-    df = pd.DataFrame([{k: v for k, v in l.items() if k != "verifications_ratees"} for l in lignes])
+    df = pd.DataFrame([{k: v for k, v in l.items() if k not in ("verifications_ratees", "crux")} for l in lignes])
     ref = cfg["site_reference"]
     pairs = df[df["site"] != ref]
     med = {k: round(float(pairs[k].median()), 3) for k in list(CATEGORIES.values()) + list(METRIQUES.values())
@@ -163,6 +185,22 @@ def main():
     md.append("| *Médiane des sites comparables* | " + " | ".join(fmt(med.get(c)) for c in cols) + " |")
     md += ["", "Repères Lighthouse : 90-100 = bon, 50-89 = à améliorer, 0-49 = mauvais. "
                "LCP bon sous 2,5 s ; CLS bon sous 0,1.", ""]
+    md += ["## Expérience réelle des visiteurs (CrUX)", "",
+           "Données terrain de Chrome sur 28 jours (75e percentile des visites). "
+           "Google ne les publie qu'au-delà d'un certain trafic.", "",
+           "| Site | Verdict global | " + " | ".join(n for n, _ in CRUX.values()) + " |",
+           "|---|---|" + "---|" * len(CRUX)]
+    for l in lignes:
+        c = l.get("crux")
+        if not c:
+            md.append(f"| {l['site']} | trafic insuffisant | " + " | ".join("–" for _ in CRUX) + " |")
+            continue
+        cells = []
+        for nom, f in CRUX.values():
+            m = c.get(nom)
+            cells.append("–" if not m or m["p75"] is None else f"{f(m['p75'])} ({m['verdict']})")
+        md.append(f"| {l['site']} | {c['verdict_global'] or '–'} | " + " | ".join(cells) + " |")
+    md += [""]
     md += ["## Vérifications ratées", "",
            "Ce qui fait perdre des points à chaque site (ratées dans au moins la moitié des passages).", ""]
     for l in lignes:
