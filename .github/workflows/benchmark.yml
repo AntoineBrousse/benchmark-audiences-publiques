@@ -31,6 +31,8 @@ jobs:
           fi
       - name: Qualité technique (Lighthouse)
         continue-on-error: true   # un échec Lighthouse ne bloque pas le benchmark d'audience
+        env:
+          PSI_API_KEY: ${{ secrets.PSI_API_KEY }}   # optionnel : augmente le quota PageSpeed Insights
         run: python scripts/lighthouse.py
       - name: Enregistrement des résultats
         run: |

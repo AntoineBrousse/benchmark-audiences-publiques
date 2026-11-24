@@ -29,8 +29,8 @@ En local : `python scripts/benchmark.py --mois 2026-10`.
 
 ## Qualité technique (Lighthouse)
 
-`scripts/lighthouse.py` lance chaque mois Lighthouse (outil public de Google, preset desktop) sur la page d'accueil d'aquagir et des sites comparables, 3 passages par page, médiane retenue. Même mesure pour tous les sites, donc comparaison directe.
-Sorties : `resultats/lighthouse_AAAA-MM.md`, `.json` et `lighthouse_historique.csv`. Pages mesurées : `config.json` → `lighthouse`.
+`scripts/lighthouse.py` lance chaque mois Lighthouse via l'API PageSpeed Insights de Google (preset desktop ; certains sites bloquent les serveurs GitHub, la mesure est donc faite depuis les serveurs de Google) sur la page d'accueil d'aquagir et des sites comparables, 3 passages par page, médiane retenue. Même mesure pour tous les sites, donc comparaison directe.
+Sorties : `resultats/lighthouse_AAAA-MM.md`, `.json` et `lighthouse_historique.csv`. Pages mesurées : `config.json` → `lighthouse`. Clé API facultative : secret `PSI_API_KEY`.
 
 ## Limites
 

@@ -11,11 +11,13 @@ import argparse
 import datetime as dt
 import json
 import statistics
-import subprocess
+import os
 import sys
+import time
 from pathlib import Path
 
 import pandas as pd
+import requests
 
 RACINE = Path(__file__).resolve().parent.parent
 RESULTATS = RACINE / "resultats"
@@ -43,13 +45,26 @@ def extraire(rapport):
     return res
 
 
+PSI = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+
+
 def lancer(url, preset, dest):
-    cmd = ["npx", "--yes", "lighthouse@12", url, "--quiet", "--output=json", f"--output-path={dest}",
-           "--chrome-flags=--headless=new --no-sandbox", "--only-categories=" + ",".join(CATEGORIES)]
-    if preset == "desktop":
-        cmd.append("--preset=desktop")
-    subprocess.run(cmd, check=True, timeout=240)
-    return json.loads(Path(dest).read_text(encoding="utf-8"))
+    """Lighthouse via PageSpeed Insights : Google lance la mesure depuis ses serveurs
+    (les sites qui bloquent les serveurs d'hébergement comme GitHub restent mesurables)."""
+    params = [("url", url), ("strategy", preset)] + [("category", c.upper().replace("-", "_")) for c in CATEGORIES]
+    if os.environ.get("PSI_API_KEY"):
+        params.append(("key", os.environ["PSI_API_KEY"]))
+    for essai in range(3):
+        r = requests.get(PSI, params=params, timeout=180)
+        if r.status_code == 429 and essai < 2:  # quota sans clé : on patiente
+            time.sleep(30)
+            continue
+        if not r.ok:
+            raise RuntimeError(f"PageSpeed Insights HTTP {r.status_code} : {r.text[:200]}")
+        break
+    rapport = r.json()["lighthouseResult"]
+    Path(dest).write_text(json.dumps(rapport), encoding="utf-8")
+    return rapport
 
 
 def mediane(mesures):
@@ -107,7 +122,7 @@ def main():
     cols = list(CATEGORIES.values()) + list(METRIQUES.values())
     fmt = lambda v: "–" if v is None or pd.isna(v) else (f"{v:g}")
     md = [f"# Qualité technique (Lighthouse) – {a.mois}", "",
-          f"Mesure Lighthouse ({cfg['preset']}), médiane de {cfg['passages']} passages par page. "
+          f"Mesure Lighthouse via PageSpeed Insights ({cfg['preset']}), médiane de {cfg['passages']} passages par page. "
           "Scores de 0 à 100 (plus c'est haut, mieux c'est) ; LCP, TBT et CLS : plus c'est bas, mieux c'est.", "",
           "| Site | " + " | ".join(cols) + " |", "|---|" + "---|" * len(cols)]
     for l in lignes:
