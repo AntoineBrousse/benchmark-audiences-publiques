@@ -56,7 +56,9 @@ def lancer(url, preset, dest):
         params.append(("key", os.environ["PSI_API_KEY"]))
     for essai in range(3):
         r = requests.get(PSI, params=params, timeout=180)
-        if r.status_code == 429 and essai < 2:  # quota sans clé : on patiente
+        if r.status_code == 429 and "per day" in r.text:
+            raise RuntimeError("quota journalier PageSpeed Insights épuisé : ajouter le secret PSI_API_KEY")
+        if r.status_code == 429 and essai < 2:  # limite par minute : on patiente
             time.sleep(30)
             continue
         if not r.ok:
