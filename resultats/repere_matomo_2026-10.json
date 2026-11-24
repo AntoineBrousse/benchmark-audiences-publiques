@@ -1,0 +1,19 @@
+{
+  "mois": "2026-10",
+  "site": "collectivite.fr",
+  "nature": "Annuaire des collectivités (beta.gouv) – repère de mesure, pas un site comparable",
+  "outil": "Matomo",
+  "visites": 116794,
+  "duree_moy_s": 192.8,
+  "pages_par_visite": 2.0,
+  "taux_rebond": 0.668,
+  "part_ordinateur": 0.0,
+  "sources": {
+    "Accès direct": 0.874,
+    "Recherche organique": 0.12,
+    "Sites référents": 0.004,
+    "Campagnes": 0.001,
+    "Assistants IA": 0.0,
+    "Social organique": 0.0
+  }
+}

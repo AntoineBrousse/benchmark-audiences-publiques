@@ -1,0 +1,27 @@
+{
+  "mois": "2026-11",
+  "date_mesure": "2026-11-24",
+  "sites": [
+    {
+      "site": "aquagir.fr",
+      "pages": 2575,
+      "part_avec_date": 1.0,
+      "modifiees_30j": 57,
+      "modifiees_90j": 1059,
+      "derniere_modif": "2026-11-24",
+      "rubriques": {
+        "financements": 825,
+        "evenements": 498,
+        "tout-savoir-sur-leau": 271,
+        "gestion-milieux-aquatiques": 160,
+        "distribution-eau-potable": 139
+      }
+    }
+  ],
+  "sans_sitemap_lisible": [
+    "territoires-climat.ademe.fr",
+    "avelo.ademe.fr",
+    "economie-circulaire.ademe.fr",
+    "experimentationsurbaines.ademe.fr"
+  ]
+}

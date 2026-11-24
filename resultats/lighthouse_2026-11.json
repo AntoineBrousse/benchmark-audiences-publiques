@@ -5,12 +5,12 @@
     {
       "site": "aquagir.fr",
       "passages": 3,
-      "Performance": 90,
+      "Performance": 91,
       "Accessibilité": 94,
       "Bonnes pratiques": 100,
       "SEO": 100,
-      "LCP (s)": 0.86,
-      "TBT (ms)": 178,
+      "LCP (s)": 0.9,
+      "TBT (ms)": 170,
       "CLS": 0.015,
       "verifications_ratees": {
         "SEO": [],
@@ -19,17 +19,32 @@
           "Les listes ne contiennent pas uniquement des éléments `<li>` et des éléments de type script (`<script>` et `<template>`)."
         ],
         "Bonnes pratiques": []
+      },
+      "crux": {
+        "verdict_global": "bon",
+        "Affichage (LCP)": {
+          "p75": 1457,
+          "verdict": "bon"
+        },
+        "Réactivité (INP)": {
+          "p75": 60,
+          "verdict": "bon"
+        },
+        "Stabilité (CLS)": {
+          "p75": 2,
+          "verdict": "bon"
+        }
       }
     },
     {
       "site": "territoires-climat.ademe.fr",
       "passages": 3,
-      "Performance": 67,
+      "Performance": 86,
       "Accessibilité": 85,
       "Bonnes pratiques": 77,
       "SEO": 83,
-      "LCP (s)": 2.15,
-      "TBT (ms)": 358,
+      "LCP (s)": 1.86,
+      "TBT (ms)": 81,
       "CLS": 0,
       "verifications_ratees": {
         "SEO": [
@@ -46,20 +61,23 @@
           "Des problèmes ont été enregistrés dans le panneau `Issues` des outils de développement Chrome",
           "La page n'utilise pas le protocole HTTPS"
         ]
-      }
+      },
+      "crux": null
     },
     {
       "site": "avelo.ademe.fr",
       "passages": 3,
-      "Performance": 59,
+      "Performance": 25,
       "Accessibilité": 95,
       "Bonnes pratiques": 77,
-      "SEO": 100,
-      "LCP (s)": 0.66,
-      "TBT (ms)": 1778,
-      "CLS": 0.063,
+      "SEO": 92,
+      "LCP (s)": 5.92,
+      "TBT (ms)": 2711,
+      "CLS": 0.062,
       "verifications_ratees": {
-        "SEO": [],
+        "SEO": [
+          "Le fichier robots.txt n'est pas valide"
+        ],
         "Accessibilité": [
           "Les liens n'ont pas de nom visible",
           "Les éléments d'en-tête ne sont pas classés séquentiellement par ordre décroissant"
@@ -68,17 +86,18 @@
           "Des problèmes ont été enregistrés dans le panneau `Issues` des outils de développement Chrome",
           "Utilise des cookies tiers"
         ]
-      }
+      },
+      "crux": null
     },
     {
       "site": "economie-circulaire.ademe.fr",
       "passages": 3,
-      "Performance": 92,
+      "Performance": 93,
       "Accessibilité": 97,
       "Bonnes pratiques": 100,
       "SEO": 92,
-      "LCP (s)": 1.13,
-      "TBT (ms)": 0,
+      "LCP (s)": 1.0,
+      "TBT (ms)": 22,
       "CLS": 0.014,
       "verifications_ratees": {
         "SEO": [
@@ -88,15 +107,30 @@
           "Les listes ne contiennent pas uniquement des éléments `<li>` et des éléments de type script (`<script>` et `<template>`)."
         ],
         "Bonnes pratiques": []
+      },
+      "crux": {
+        "verdict_global": "à améliorer",
+        "Affichage (LCP)": {
+          "p75": 1201,
+          "verdict": "bon"
+        },
+        "Réactivité (INP)": {
+          "p75": 121,
+          "verdict": "bon"
+        },
+        "Stabilité (CLS)": {
+          "p75": 16,
+          "verdict": "à améliorer"
+        }
       }
     },
     {
       "site": "experimentationsurbaines.ademe.fr",
       "passages": 3,
-      "Performance": 96,
+      "Performance": 95,
       "Accessibilité": 79,
       "Bonnes pratiques": 100,
-      "SEO": 69,
+      "SEO": 77,
       "LCP (s)": 0.82,
       "TBT (ms)": 0,
       "CLS": 0.1,
@@ -104,8 +138,7 @@
         "SEO": [
           "Des éléments d'image n'ont pas d'attribut `[alt]`",
           "Le document ne contient pas d'attribut \"meta description\"",
-          "Le document ne contient pas d'élément `<title>`",
-          "Le fichier robots.txt n'est pas valide"
+          "Le document ne contient pas d'élément `<title>`"
         ],
         "Accessibilité": [
           "Des éléments d'image n'ont pas d'attribut `[alt]`",
@@ -115,16 +148,31 @@
           "Les liens n'ont pas de nom visible"
         ],
         "Bonnes pratiques": []
+      },
+      "crux": {
+        "verdict_global": "bon",
+        "Affichage (LCP)": {
+          "p75": 928,
+          "verdict": "bon"
+        },
+        "Réactivité (INP)": {
+          "p75": 40,
+          "verdict": "bon"
+        },
+        "Stabilité (CLS)": {
+          "p75": 2,
+          "verdict": "bon"
+        }
       }
     }
   ],
   "mediane_pairs": {
-    "Performance": 79.5,
+    "Performance": 89.5,
     "Accessibilité": 90.0,
     "Bonnes pratiques": 88.5,
     "SEO": 87.5,
-    "LCP (s)": 0.975,
-    "TBT (ms)": 179.0,
+    "LCP (s)": 1.43,
+    "TBT (ms)": 51.5,
     "CLS": 0.038
   },
   "echecs": []
