@@ -10,6 +10,7 @@ Lecteur : un alternant data et son manager, non spécialistes du SEO. Réponses 
 - `aquagir_historique.csv` : historique mois par mois.
 - `lighthouse_AAAA-MM.md` / `.json` : qualité technique (Lighthouse via PageSpeed Insights) d'aquagir **et** des 4 sites, avec les vérifications ratées.
 - `lighthouse_historique.csv` : historique Lighthouse.
+- `repere_matomo_AAAA-MM.md` / `.json` : collectivite.fr (annuaire pour les collectivités, mesuré avec Matomo comme aquagir). Ce n'est **pas** un site comparable : utilise-le seulement comme repère de mesure (même outil, taux de rebond disponible), jamais dans la médiane.
 
 Prends le mois le plus récent de chaque série. Si le workflow n'a rien produit de nouveau depuis la dernière analyse (`analyses/`), dis-le simplement et arrête-toi.
 

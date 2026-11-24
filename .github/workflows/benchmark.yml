@@ -29,6 +29,14 @@ jobs:
           else
             python scripts/benchmark.py
           fi
+      - name: Repère Matomo (collectivite.fr)
+        continue-on-error: true
+        run: |
+          if [ -n "${{ inputs.mois }}" ]; then
+            python scripts/repere_matomo.py --mois "${{ inputs.mois }}"
+          else
+            python scripts/repere_matomo.py
+          fi
       - name: Qualité technique (Lighthouse)
         continue-on-error: true   # un échec Lighthouse ne bloque pas le benchmark d'audience
         env:
