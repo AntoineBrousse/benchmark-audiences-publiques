@@ -23,6 +23,8 @@ RACINE = Path(__file__).resolve().parent.parent
 RESULTATS = RACINE / "resultats"
 CATEGORIES = {"performance": "Performance", "accessibility": "Accessibilité",
               "best-practices": "Bonnes pratiques", "seo": "SEO"}
+# Catégories pour lesquelles on liste les vérifications ratées (la performance est une mesure continue)
+EXPLIQUEES = {"seo": "SEO", "accessibility": "Accessibilité", "best-practices": "Bonnes pratiques"}
 METRIQUES = {"largest-contentful-paint": "LCP (s)", "total-blocking-time": "TBT (ms)",
              "cumulative-layout-shift": "CLS"}
 
@@ -45,13 +47,39 @@ def extraire(rapport):
     return res
 
 
+def verifications_ratees(rapport):
+    """{catégorie: [titres des vérifications ratées]} (audits pondérés, score < 1)."""
+    audits = rapport["audits"]
+    out = {}
+    for cle, nom in EXPLIQUEES.items():
+        rates = []
+        for ref in rapport["categories"].get(cle, {}).get("auditRefs", []):
+            a = audits.get(ref["id"], {})
+            if ref.get("weight", 0) > 0 and a.get("score") is not None and a["score"] < 1:
+                rates.append(a.get("title", ref["id"]))
+        out[nom] = rates
+    return out
+
+
+def ratees_majoritaires(listes):
+    """Garde les vérifications ratées dans au moins la moitié des passages."""
+    out = {}
+    for nom in EXPLIQUEES.values():
+        compte = {}
+        for l in listes:
+            for t in l.get(nom, []):
+                compte[t] = compte.get(t, 0) + 1
+        out[nom] = sorted(t for t, n in compte.items() if n * 2 >= len(listes))
+    return out
+
+
 PSI = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
 
 
 def lancer(url, preset, dest):
     """Lighthouse via PageSpeed Insights : Google lance la mesure depuis ses serveurs
     (les sites qui bloquent les serveurs d'hébergement comme GitHub restent mesurables)."""
-    params = [("url", url), ("strategy", preset)] + [("category", c.upper().replace("-", "_")) for c in CATEGORIES]
+    params = [("url", url), ("strategy", preset), ("locale", "fr")] + [("category", c.upper().replace("-", "_")) for c in CATEGORIES]
     if os.environ.get("PSI_API_KEY"):
         params.append(("key", os.environ["PSI_API_KEY"]))
     for essai in range(3):
@@ -89,7 +117,7 @@ def main():
     tmp = RACINE / "donnees" / "lighthouse"
     tmp.mkdir(parents=True, exist_ok=True)
     for site, urls in cfg["sites"].items():
-        mesures = []
+        mesures, ratees = [], []
         for url in urls:
             for i in range(cfg["passages"]):
                 try:
@@ -99,10 +127,12 @@ def main():
                     else:
                         rapport = lancer(url, cfg["preset"], tmp / f"{site}__{i}.json")
                     mesures.append(extraire(rapport))
+                    ratees.append(verifications_ratees(rapport))
                 except Exception as e:  # un site injoignable ne bloque pas les autres
                     print(f"ATTENTION : {url} passage {i + 1} : {e}", file=sys.stderr)
         if mesures:
-            lignes.append({"site": site, "passages": len(mesures), **mediane(mesures)})
+            lignes.append({"site": site, "passages": len(mesures), **mediane(mesures),
+                           "verifications_ratees": ratees_majoritaires(ratees)})
         else:
             echecs.append(site)
 
@@ -110,7 +140,7 @@ def main():
         print("ERREUR : aucune mesure Lighthouse réussie", file=sys.stderr)
         sys.exit(1)
 
-    df = pd.DataFrame(lignes)
+    df = pd.DataFrame([{k: v for k, v in l.items() if k != "verifications_ratees"} for l in lignes])
     ref = cfg["site_reference"]
     pairs = df[df["site"] != ref]
     med = {k: round(float(pairs[k].median()), 3) for k in list(CATEGORIES.values()) + list(METRIQUES.values())
@@ -133,6 +163,13 @@ def main():
     md.append("| *Médiane des sites comparables* | " + " | ".join(fmt(med.get(c)) for c in cols) + " |")
     md += ["", "Repères Lighthouse : 90-100 = bon, 50-89 = à améliorer, 0-49 = mauvais. "
                "LCP bon sous 2,5 s ; CLS bon sous 0,1.", ""]
+    md += ["## Vérifications ratées", "",
+           "Ce qui fait perdre des points à chaque site (ratées dans au moins la moitié des passages).", ""]
+    for l in lignes:
+        md.append(f"### {l['site']}")
+        for nom, rates in l["verifications_ratees"].items():
+            md.append(f"- **{nom}** : " + ("; ".join(rates) if rates else "aucune"))
+        md.append("")
     if echecs:
         md.append("⚠️ Mesure impossible ce mois : " + ", ".join(echecs) + ".")
     md += ["", "Limites : page d'accueil uniquement, score variable d'un passage à l'autre, "
