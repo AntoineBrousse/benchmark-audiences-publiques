@@ -1,0 +1,16 @@
+{
+  "dataset": "observatoire-de-lecosysteme-numerique-de-letat-sites-internet",
+  "benchmarks": {
+    "aquagir": {
+      "description": "Sites publics pour les collectivités, structure plateforme de ressources et d'accompagnement",
+      "criteres": ["Public : collectivités ou professionnels du territoire", "Structure : plateforme de ressources et d'accompagnement"],
+      "pairs": {
+        "405": {"site": "territoires-climat.ademe.fr", "nature": "Ressources par étapes et financements pour le PCAET des collectivités (meilleur jumeau)"},
+        "4193": {"site": "avelo.ademe.fr", "nature": "Ressources et aides vélo pour les collectivités"},
+        "1626": {"site": "economie-circulaire.ademe.fr", "nature": "Ressources et outils économie circulaire, pros et collectivités"},
+        "118": {"site": "experimentationsurbaines.ademe.fr", "nature": "Ressources et communautés urbanisme durable"}
+      }
+    }
+  },
+  "codes_appareil": {"6": "ordinateur", "5": "mobile", "1": "tablette", "2": "tv"}
+}

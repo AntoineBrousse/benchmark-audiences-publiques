@@ -1,0 +1,53 @@
+{
+  "mois": "2026-10",
+  "jours_couverts": 29,
+  "jours_du_mois": 31,
+  "sites": [
+    {
+      "id_site": 405,
+      "site": "territoires-climat.ademe.fr",
+      "nature": "Ressources par étapes et financements pour le PCAET des collectivités (meilleur jumeau)",
+      "visites": 417,
+      "duree_moy_s": 128.4,
+      "pages_par_visite": 2.41,
+      "part_ordinateur": 0.892
+    },
+    {
+      "id_site": 4193,
+      "site": "avelo.ademe.fr",
+      "nature": "Ressources et aides vélo pour les collectivités",
+      "visites": 1078,
+      "duree_moy_s": 89.1,
+      "pages_par_visite": 1.63,
+      "part_ordinateur": 0.811
+    },
+    {
+      "id_site": 1626,
+      "site": "economie-circulaire.ademe.fr",
+      "nature": "Ressources et outils économie circulaire, pros et collectivités",
+      "visites": 9507,
+      "duree_moy_s": 80.0,
+      "pages_par_visite": 1.51,
+      "part_ordinateur": 0.871
+    },
+    {
+      "id_site": 118,
+      "site": "experimentationsurbaines.ademe.fr",
+      "nature": "Ressources et communautés urbanisme durable",
+      "visites": 548,
+      "duree_moy_s": 77.5,
+      "pages_par_visite": 1.94,
+      "part_ordinateur": 0.843
+    }
+  ],
+  "sites_sans_donnees": [],
+  "mediane": {
+    "duree_moy_s": 84.5,
+    "pages_par_visite": 1.78,
+    "part_ordinateur": 0.857
+  },
+  "reference_etat": {
+    "nb_sites": 597,
+    "duree_moy_mediane_s": 71.8
+  }
+}
