@@ -63,7 +63,11 @@ def main():
 
     try:
         appareils = appel("DevicesDetection.getType", a.mois, a.reponses_json)
-        ordi = sum(r["nb_visits"] for r in appareils if r.get("label") in ("Ordinateur", "Desktop"))
+        est_ordi = lambda r: ("desktop" in r.get("segment", "").lower()
+                              or any(m in r.get("label", "").lower() for m in ("ordinateur", "desktop")))
+        ordi = sum(r["nb_visits"] for r in appareils if est_ordi(r))
+        if not ordi:
+            print("ATTENTION : libellés appareils : " + ", ".join(str(r.get("label")) for r in appareils))
         res["part_ordinateur"] = round(ordi / visites, 3)
     except Exception as e:
         print(f"ATTENTION : appareils indisponibles ({e})")
