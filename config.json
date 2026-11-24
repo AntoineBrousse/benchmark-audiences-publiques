@@ -51,5 +51,28 @@
   "_note_codes_source": "Libellés officiels du fichier audience-liste-source (data.gouv, sept. 2025). Plusieurs codes sont regroupés sous 'Autres' par le SIG.",
   "codes_source_exclus": {
     "6": "Global (probable agrégat, exclu pour éviter un double comptage)"
+  },
+  "lighthouse": {
+    "_note": "Mesure Lighthouse (outil public de Google) lancée par nos soins : même mesure pour tous les sites. Preset desktop car le public des sites comparables est à environ 86 % sur ordinateur.",
+    "preset": "desktop",
+    "passages": 3,
+    "sites": {
+      "aquagir.fr": [
+        "https://www.aquagir.fr/"
+      ],
+      "territoires-climat.ademe.fr": [
+        "https://territoires-climat.ademe.fr/"
+      ],
+      "avelo.ademe.fr": [
+        "https://avelo.ademe.fr/"
+      ],
+      "economie-circulaire.ademe.fr": [
+        "https://economie-circulaire.ademe.fr/"
+      ],
+      "experimentationsurbaines.ademe.fr": [
+        "https://experimentationsurbaines.ademe.fr/"
+      ]
+    },
+    "site_reference": "aquagir.fr"
   }
 }

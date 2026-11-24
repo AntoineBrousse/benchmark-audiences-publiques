@@ -27,6 +27,12 @@ Codes appareil déduits par cohérence avec les totaux de l'observatoire : 6 = o
 
 En local : `python scripts/benchmark.py --mois 2026-10`.
 
+## Qualité technique (Lighthouse)
+
+`scripts/lighthouse.py` lance chaque mois Lighthouse (outil public de Google, preset desktop) sur la page d'accueil d'aquagir et des sites comparables, 3 passages par page, médiane retenue. Même mesure pour tous les sites, donc comparaison directe.
+Sorties : `resultats/lighthouse_AAAA-MM.md`, `.json` et `lighthouse_historique.csv`. Pages mesurées : `config.json` → `lighthouse`.
+
 ## Limites
 
-Mesure Eulerian (nos sites : Matomo), pas de taux de rebond publié, majorité de sites ADEME, petits volumes instables.
+Audience : mesure Eulerian (nos sites : Matomo), pas de taux de rebond publié, majorité de sites ADEME, petits volumes instables.
+Lighthouse : page d'accueil seulement, score variable, accessibilité partielle par rapport au RGAA.
