@@ -1,0 +1,71 @@
+{
+  "mois": "2026-11",
+  "preset": "desktop",
+  "sites": [
+    {
+      "site": "aquagir.fr",
+      "passages": 3,
+      "Performance": 93,
+      "Accessibilité": 94,
+      "Bonnes pratiques": 100,
+      "SEO": 100,
+      "LCP (s)": 0.9,
+      "TBT (ms)": 96,
+      "CLS": 0.009
+    },
+    {
+      "site": "territoires-climat.ademe.fr",
+      "passages": 3,
+      "Performance": 79,
+      "Accessibilité": 85,
+      "Bonnes pratiques": 77,
+      "SEO": 83,
+      "LCP (s)": 1.71,
+      "TBT (ms)": 30,
+      "CLS": 0.151
+    },
+    {
+      "site": "avelo.ademe.fr",
+      "passages": 3,
+      "Performance": 50,
+      "Accessibilité": 95,
+      "Bonnes pratiques": 77,
+      "SEO": 92,
+      "LCP (s)": 2.73,
+      "TBT (ms)": 367,
+      "CLS": 0.062
+    },
+    {
+      "site": "economie-circulaire.ademe.fr",
+      "passages": 3,
+      "Performance": 94,
+      "Accessibilité": 97,
+      "Bonnes pratiques": 100,
+      "SEO": 92,
+      "LCP (s)": 1.21,
+      "TBT (ms)": 5,
+      "CLS": 0.014
+    },
+    {
+      "site": "experimentationsurbaines.ademe.fr",
+      "passages": 3,
+      "Performance": 94,
+      "Accessibilité": 79,
+      "Bonnes pratiques": 100,
+      "SEO": 77,
+      "LCP (s)": 0.72,
+      "TBT (ms)": 0,
+      "CLS": 0.1
+    }
+  ],
+  "mediane_pairs": {
+    "Performance": 86.5,
+    "Accessibilité": 90.0,
+    "Bonnes pratiques": 88.5,
+    "SEO": 87.5,
+    "LCP (s)": 1.46,
+    "TBT (ms)": 17.5,
+    "CLS": 0.081
+  },
+  "echecs": []
+}
