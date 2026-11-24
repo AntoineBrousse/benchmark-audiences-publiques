@@ -41,4 +41,5 @@ jobs:
           git add resultats/
           git diff --cached --quiet && echo "Aucun changement" && exit 0
           git commit -m "Benchmark $(date +%Y-%m-%d)"
+          git pull --rebase origin main   # le dépôt a pu changer pendant le calcul
           git push
