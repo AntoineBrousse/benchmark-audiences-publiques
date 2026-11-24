@@ -26,6 +26,7 @@ MOIS = {"janvier": 1, "fevrier": 2, "mars": 3, "avril": 4, "mai": 5, "juin": 6, 
         "aout": 8, "septembre": 9, "octobre": 10, "novembre": 11, "decembre": 12}
 COLONNES_BROWSER = {"duree_visite", "nb_visite", "nb_page_vue", "date_visite", "id_site", "id_device"}
 COLONNES_LISTE = {"id_site", "label_site"}
+COLONNES_TRAFIC = {"id_site", "id_source", "nb_visite"}
 
 
 def erreur(msg):
@@ -64,7 +65,17 @@ def verifier_colonnes(df, attendues, nom):
         erreur(f"{nom} : colonnes manquantes {sorted(manquantes)} (format modifié par le SIG ?)")
 
 
-def calculer(browser, liste, mois, cfg):
+def parts_sources(trafic, ids, cfg):
+    """Part des visites par source de trafic pour chaque site (dict id_site -> {source: part})."""
+    verifier_colonnes(trafic, COLONNES_TRAFIC, "fichier trafic")
+    t = trafic[trafic["id_site"].isin(ids)]
+    p = t.pivot_table(index="id_site", columns="id_source", values="nb_visite", aggfunc="sum", fill_value=0)
+    p = p.div(p.sum(axis=1), axis=0)
+    p.columns = [cfg.get("codes_source", {}).get(str(c), f"source_{c}") for c in p.columns]
+    return {int(i): {k: round(float(v), 3) for k, v in row.items()} for i, row in p.iterrows()}
+
+
+def calculer(browser, liste, mois, cfg, trafic=None):
     verifier_colonnes(browser, COLONNES_BROWSER, "fichier visites")
     verifier_colonnes(liste, COLONNES_LISTE, "fichier liste des sites")
 
@@ -105,6 +116,10 @@ def calculer(browser, liste, mois, cfg):
             })
         if not lignes:
             erreur(f"benchmark {nom} : aucun site comparable n'a de données pour {mois}")
+        if trafic is not None:
+            sources = parts_sources(trafic, [l["id_site"] for l in lignes], cfg)
+            for l in lignes:
+                l["sources"] = sources.get(l["id_site"], {})
         df = pd.DataFrame(lignes)
         rapports[nom] = {
             "mois": mois,
@@ -116,6 +131,9 @@ def calculer(browser, liste, mois, cfg):
                 "duree_moy_s": round(float(df["duree_moy_s"].median()), 1),
                 "pages_par_visite": round(float(df["pages_par_visite"].median()), 2),
                 "part_ordinateur": round(float(df["part_ordinateur"].median()), 3),
+                **({"sources": {k: round(float(v), 3) for k, v in
+                                pd.DataFrame([l.get("sources", {}) for l in lignes]).fillna(0).median().items()}}
+                   if trafic is not None else {}),
             },
             "reference_etat": {
                 "nb_sites": int((g["visites"] > 0).sum()),
@@ -150,6 +168,15 @@ def ecrire(rapports, cfg):
                f"**{med['part_ordinateur']:.0%}** |", "",
                f"Repère : durée moyenne médiane de l'ensemble des {r['reference_etat']['nb_sites']} sites de l'État : "
                f"{fmt_duree(r['reference_etat']['duree_moy_mediane_s'])}.", ""]
+        if "sources" in med:
+            cols = sorted(med["sources"], key=lambda k: -med["sources"][k])
+            md += ["## Sources de trafic (part des visites)", "",
+                   "| Site | " + " | ".join(cols) + " |", "|---|" + "---|" * len(cols)]
+            for s in r["sites"]:
+                md.append(f"| {s['site']} | " + " | ".join(f"{s.get('sources', {}).get(c, 0):.0%}" for c in cols) + " |")
+            md += ["| **Médiane** | " + " | ".join(f"**{med['sources'][c]:.0%}**" for c in cols) + " |", ""]
+            if any(c.startswith("source_") for c in cols):
+                md += ["Codes source non encore libellés : à renseigner dans config.json (codes_source).", ""]
         if r["jours_couverts"] < r["jours_du_mois"]:
             md.append(f"⚠️ Données sur {r['jours_couverts']} jours sur {r['jours_du_mois']}.")
         if r["sites_sans_donnees"]:
@@ -160,8 +187,10 @@ def ecrire(rapports, cfg):
 
         # Historique : une ligne par site et par mois (remplace le mois s'il existe déjà)
         hist = RESULTATS / f"{nom}_historique.csv"
-        nouv = pd.DataFrame(r["sites"]).assign(mois=mois)
-        nouv = pd.concat([nouv, pd.DataFrame([{"mois": mois, "site": "MEDIANE", **med}])])
+        sites = [{k: v for k, v in s.items() if k != "sources"} for s in r["sites"]]
+        med_plat = {k: v for k, v in med.items() if k != "sources"}
+        nouv = pd.DataFrame(sites).assign(mois=mois)
+        nouv = pd.concat([nouv, pd.DataFrame([{"mois": mois, "site": "MEDIANE", **med_plat}])])
         if hist.exists():
             anc = pd.read_csv(hist)
             nouv = pd.concat([anc[anc["mois"] != mois], nouv])
@@ -175,6 +204,7 @@ def main():
     p.add_argument("--mois", help="AAAA-MM (défaut : dernier mois publié)")
     p.add_argument("--browser-csv")
     p.add_argument("--liste-csv")
+    p.add_argument("--trafic-csv")
     a = p.parse_args()
     cfg = json.loads((RACINE / "config.json").read_text(encoding="utf-8"))
 
@@ -182,6 +212,7 @@ def main():
         if not a.mois:
             erreur("--mois est obligatoire avec des fichiers locaux")
         mois, f_browser, f_liste = a.mois, Path(a.browser_csv), Path(a.liste_csv)
+        f_trafic = Path(a.trafic_csv) if a.trafic_csv else None
     else:
         res = lister_ressources(cfg["dataset"])
         dispo = sorted(m for (f, m) in res if f == "audience-visites-browser-sites")
@@ -194,8 +225,14 @@ def main():
         tmp = RACINE / "donnees"
         f_browser = telecharger(res[("audience-visites-browser-sites", mois)], tmp / f"browser_{mois}.csv")
         f_liste = telecharger(res[("audience-liste-sites", mois)], tmp / f"liste_{mois}.csv")
+        f_trafic = None
+        if ("audience-visites-trafic-sites", mois) in res:
+            f_trafic = telecharger(res[("audience-visites-trafic-sites", mois)], tmp / f"trafic_{mois}.csv")
+        else:
+            print(f"ATTENTION : fichier trafic non publié pour {mois}, sources de trafic ignorées.", file=sys.stderr)
 
-    rapports = calculer(pd.read_csv(f_browser), pd.read_csv(f_liste), mois, cfg)
+    trafic = pd.read_csv(f_trafic) if f_trafic else None
+    rapports = calculer(pd.read_csv(f_browser), pd.read_csv(f_liste), mois, cfg, trafic)
     ecrire(rapports, cfg)
 
 
