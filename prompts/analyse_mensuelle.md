@@ -10,7 +10,7 @@ Lecteur : un alternant data et son manager, non spécialistes du SEO. Réponses 
 - `aquagir_historique.csv` : historique mois par mois.
 - `lighthouse_AAAA-MM.md` / `.json` : qualité technique (Lighthouse via PageSpeed Insights) d'aquagir **et** des 4 sites, avec les vérifications ratées.
 - `lighthouse_historique.csv` : historique Lighthouse.
-- `sitemaps_AAAA-MM.md` / `.json` : contenu de chaque site (nombre de pages, pages modifiées sur 30/90 jours, rubriques). Sert à expliquer les écarts d'audience (plus de contenu à jour = plus d'entrées depuis Google). Attention aux sites dont peu de pages sont datées.
+- `sitemaps_AAAA-MM.md` / `.json` : veille sur le contenu d'aquagir seul (nombre de pages, pages modifiées sur 30/90 jours, rubriques). Commente l'évolution d'un mois sur l'autre (rythme de publication, rubriques qui grossissent). Pas de comparaison possible avec les autres sites (accès refusé).
 - Section « Expérience réelle des visiteurs (CrUX) » du rapport Lighthouse : vitesse vécue par les vrais visiteurs, quand Google la publie ; sinon ne pas la commenter.
 - `repere_matomo_AAAA-MM.md` / `.json` : collectivite.fr (annuaire pour les collectivités, mesuré avec Matomo comme aquagir). Ce n'est **pas** un site comparable : utilise-le seulement comme repère de mesure (même outil, taux de rebond disponible), jamais dans la médiane.
 

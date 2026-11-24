@@ -34,7 +34,7 @@ Sorties : `resultats/lighthouse_AAAA-MM.md`, `.json` et `lighthouse_historique.c
 
 ## Contenu des sites (sitemaps) et expérience réelle (CrUX)
 
-- `scripts/sitemaps.py` lit le sitemap public de chaque site : nombre de pages, pages modifiées sur 30 et 90 jours, principales rubriques. Sorties : `resultats/sitemaps_AAAA-MM.md`, `.json`, `sitemaps_historique.csv`.
+- `scripts/sitemaps.py` lit le sitemap public d'aquagir (les sites ADEME refusent l'accès depuis GitHub) : nombre de pages, pages modifiées sur 30 et 90 jours, principales rubriques. Sorties : `resultats/sitemaps_AAAA-MM.md`, `.json`, `sitemaps_historique.csv`.
 - Le rapport Lighthouse inclut les données terrain de Chrome (CrUX, 28 jours) quand Google les publie (trafic suffisant).
 
 ## Repère Matomo

@@ -1,4 +1,6 @@
-"""Veille sur le contenu : nombre de pages et rythme de publication d'aquagir et des sites comparables.
+"""Veille sur le contenu d'aquagir : nombre de pages et rythme de publication.
+
+Les sites comparables (ADEME) refusent l'accès depuis les serveurs GitHub : la veille porte sur aquagir seul.
 
 Lit le sitemap public de chaque site (le fichier que les sites publient pour les moteurs de recherche) :
 nombre de pages, pages modifiées dans les 30 et 90 derniers jours, répartition par rubrique.
@@ -128,7 +130,8 @@ def main():
     lecteur = Lecteur(a.sitemaps_dir)
 
     lignes, echecs = [], []
-    for site, urls in cfg["sites"].items():
+    sites = {cfg["site_reference"]: cfg["sites"][cfg["site_reference"]]}
+    for site, urls in sites.items():
         u = urlparse(urls[0])
         pages = lire(lecteur, f"{u.scheme}://{u.netloc}")
         if not pages:
@@ -141,7 +144,7 @@ def main():
     (RESULTATS / f"sitemaps_{a.mois}.json").write_text(json.dumps(rapport, ensure_ascii=False, indent=2), encoding="utf-8")
 
     ref = cfg["site_reference"]
-    md = [f"# Contenu des sites (sitemaps) – {a.mois}", "",
+    md = [f"# Contenu d'aquagir (sitemap) – {a.mois}", "",
           f"Lu le {jour.isoformat()} dans le sitemap public de chaque site.", "",
           "| Site | Pages | Modifiées < 30 j | Modifiées < 90 j | Dernière modif. | Pages datées | Principales rubriques |",
           "|---|---|---|---|---|---|---|"]
