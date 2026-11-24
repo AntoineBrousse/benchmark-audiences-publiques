@@ -68,10 +68,12 @@ def verifier_colonnes(df, attendues, nom):
 def parts_sources(trafic, ids, cfg):
     """Part des visites par source de trafic pour chaque site (dict id_site -> {source: part})."""
     verifier_colonnes(trafic, COLONNES_TRAFIC, "fichier trafic")
-    t = trafic[trafic["id_site"].isin(ids)]
-    p = t.pivot_table(index="id_site", columns="id_source", values="nb_visite", aggfunc="sum", fill_value=0)
+    exclus = {int(c) for c in cfg.get("codes_source_exclus", {})}
+    t = trafic[trafic["id_site"].isin(ids) & ~trafic["id_source"].isin(exclus)].copy()
+    libelles = cfg.get("codes_source", {})
+    t["source"] = t["id_source"].map(lambda c: libelles.get(str(c), f"source_{c}"))
+    p = t.pivot_table(index="id_site", columns="source", values="nb_visite", aggfunc="sum", fill_value=0)
     p = p.div(p.sum(axis=1), axis=0)
-    p.columns = [cfg.get("codes_source", {}).get(str(c), f"source_{c}") for c in p.columns]
     return {int(i): {k: round(float(v), 3) for k, v in row.items()} for i, row in p.iterrows()}
 
 

@@ -33,6 +33,23 @@
     "1": "tablette",
     "2": "tv"
   },
-  "codes_source": {},
-  "_note_codes_source": "Libellés des id_source à renseigner (documentation de l'observatoire). Tant qu'un code n'est pas renseigné, il apparaît comme 'source_<code>'."
+  "codes_source": {
+    "1": "Accès direct",
+    "2": "Autres",
+    "3": "Autres",
+    "4": "Partenariat",
+    "5": "Autres",
+    "7": "Sites référents",
+    "8": "Email",
+    "9": "Autres",
+    "10": "Campagne d'affichage",
+    "11": "Social organique",
+    "12": "Acquisition payante",
+    "13": "Autres",
+    "14": "Recherche organique"
+  },
+  "_note_codes_source": "Libellés officiels du fichier audience-liste-source (data.gouv, sept. 2025). Plusieurs codes sont regroupés sous 'Autres' par le SIG.",
+  "codes_source_exclus": {
+    "6": "Global (probable agrégat, exclu pour éviter un double comptage)"
+  }
 }
