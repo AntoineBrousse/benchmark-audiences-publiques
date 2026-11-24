@@ -137,6 +137,12 @@ def calculer(browser, liste, mois, cfg, trafic=None):
                                 pd.DataFrame([l.get("sources", {}) for l in lignes]).fillna(0).median().items()}}
                    if trafic is not None else {}),
             },
+            "quartiles": {
+                q: {"duree_moy_s": round(float(df["duree_moy_s"].quantile(v)), 1),
+                    "pages_par_visite": round(float(df["pages_par_visite"].quantile(v)), 2),
+                    "part_ordinateur": round(float(df["part_ordinateur"].quantile(v)), 3)}
+                for q, v in (("q1", 0.25), ("q3", 0.75))
+            },
             "reference_etat": {
                 "nb_sites": int((g["visites"] > 0).sum()),
                 "duree_moy_mediane_s": round(float((g["duree"] / g["visites"]).median()), 1),
@@ -167,7 +173,11 @@ def ecrire(rapports, cfg):
                       f"{s['pages_par_visite']:.2f} | {s['part_ordinateur']:.0%} |")
         med = r["mediane"]
         md += [f"| **Médiane** | | | **{fmt_duree(med['duree_moy_s'])}** | **{med['pages_par_visite']:.2f}** | "
-               f"**{med['part_ordinateur']:.0%}** |", "",
+               f"**{med['part_ordinateur']:.0%}** |",
+               f"| *50 % des sites entre* | | | *{fmt_duree(r['quartiles']['q1']['duree_moy_s'])} et "
+               f"{fmt_duree(r['quartiles']['q3']['duree_moy_s'])}* | *{r['quartiles']['q1']['pages_par_visite']:.2f} et "
+               f"{r['quartiles']['q3']['pages_par_visite']:.2f}* | *{r['quartiles']['q1']['part_ordinateur']:.0%} et "
+               f"{r['quartiles']['q3']['part_ordinateur']:.0%}* |", "",
                f"Repère : durée moyenne médiane de l'ensemble des {r['reference_etat']['nb_sites']} sites de l'État : "
                f"{fmt_duree(r['reference_etat']['duree_moy_mediane_s'])}.", ""]
         if "sources" in med:

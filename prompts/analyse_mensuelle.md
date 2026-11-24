@@ -8,6 +8,7 @@ Lecteur : un alternant data et son manager, non spécialistes du SEO. Réponses 
 
 - `aquagir_AAAA-MM.md` / `.json` : audience des 4 sites publics comparables (observatoire de l'État, mesure Eulerian) : durée moyenne, pages par visite, part ordinateur, sources de trafic, et la médiane.
 - `aquagir_historique.csv` : historique mois par mois.
+- `aquagir_cercle_large_AAAA-MM.md` / `.json` (+ historique) : cercle large de 20 sites (les 4 jumeaux + sites publics pour professionnels ou acteurs publics), avec médiane et quartiles. Les jumeaux restent la référence principale ; le cercle large donne la fourchette (« 50 % des sites entre… ») pour situer aquagir (quart inférieur, milieu, quart supérieur). Rappelle que la majorité des sites sont de l'ADEME.
 - `lighthouse_AAAA-MM.md` / `.json` : qualité technique (Lighthouse via PageSpeed Insights) d'aquagir **et** des 4 sites, avec les vérifications ratées.
 - `lighthouse_historique.csv` : historique Lighthouse.
 - `sitemaps_AAAA-MM.md` / `.json` : veille sur le contenu d'aquagir seul (nombre de pages, pages modifiées sur 30/90 jours, rubriques). Commente l'évolution d'un mois sur l'autre (rythme de publication, rubriques qui grossissent). Pas de comparaison possible avec les autres sites (accès refusé).

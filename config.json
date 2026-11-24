@@ -25,6 +25,96 @@
           "nature": "Ressources et communautés urbanisme durable"
         }
       }
+    },
+    "aquagir_cercle_large": {
+      "description": "Cercle large : jumeaux + sites publics pour professionnels ou acteurs publics, structure ressources / information / accompagnement",
+      "criteres": [
+        "Public : professionnels ou acteurs publics (collectivités, entreprises, chercheurs)",
+        "Structure : plateforme de ressources, d'information ou d'accompagnement",
+        "Exclu par choix : pacte-industrie.ademe.fr (trafic atypique de campagne sur mobile)"
+      ],
+      "pairs": {
+        "405": {
+          "site": "territoires-climat.ademe.fr",
+          "nature": "Ressources par étapes et financements pour le PCAET des collectivités (meilleur jumeau)"
+        },
+        "4193": {
+          "site": "avelo.ademe.fr",
+          "nature": "Ressources et aides vélo pour les collectivités"
+        },
+        "1626": {
+          "site": "economie-circulaire.ademe.fr",
+          "nature": "Ressources et outils économie circulaire, pros et collectivités"
+        },
+        "118": {
+          "site": "experimentationsurbaines.ademe.fr",
+          "nature": "Ressources et communautés urbanisme durable"
+        },
+        "526": {
+          "site": "collectivites-locales.gouv.fr",
+          "nature": "Information pour les collectivités (finances, droit)"
+        },
+        "2210": {
+          "site": "agirpourlatransition.ademe.fr",
+          "nature": "Aides et conseils pour la transition écologique (public mixte)"
+        },
+        "66": {
+          "site": "francenum.gouv.fr",
+          "nature": "Ressources et orientation vers aides et prestataires pour le numérique des entreprises"
+        },
+        "632": {
+          "site": "horizon-europe.gouv.fr",
+          "nature": "Orientation vers des financements de recherche"
+        },
+        "588": {
+          "site": "lafrenchtech.gouv.fr",
+          "nature": "Accompagnement de l'écosystème des startups"
+        },
+        "312": {
+          "site": "onpe.org",
+          "nature": "Ressources sur la précarité énergétique"
+        },
+        "183": {
+          "site": "lesgenerateurs.ademe.fr",
+          "nature": "Accompagnement des collectivités sur les énergies renouvelables"
+        },
+        "206": {
+          "site": "fondschaleur.ademe.fr",
+          "nature": "Financement de la chaleur renouvelable"
+        },
+        "120": {
+          "site": "academie.ademe.fr",
+          "nature": "Formations pour les professionnels"
+        },
+        "35": {
+          "site": "communication-responsable.ademe.fr",
+          "nature": "Guides et ressources pour les professionnels de la communication"
+        },
+        "203": {
+          "site": "filieres-rep.ademe.fr",
+          "nature": "Information sur les filières à responsabilité élargie du producteur"
+        },
+        "269": {
+          "site": "librairie.ademe.fr",
+          "nature": "Publications de l'ADEME"
+        },
+        "190": {
+          "site": "evenementresponsable.ademe.fr",
+          "nature": "Guide pour les organisateurs d'événements"
+        },
+        "4196": {
+          "site": "cee-remove.ademe.fr",
+          "nature": "Programme d'accompagnement report modal (transport)"
+        },
+        "4203": {
+          "site": "remove.ademe.fr",
+          "nature": "Programme d'accompagnement report modal des marchandises"
+        },
+        "187": {
+          "site": "employeursprocovoiturage.ademe.fr",
+          "nature": "Programme pour les employeurs (covoiturage)"
+        }
+      }
     }
   },
   "codes_appareil": {
