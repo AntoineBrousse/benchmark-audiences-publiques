@@ -10,7 +10,13 @@
       "visites": 417,
       "duree_moy_s": 128.4,
       "pages_par_visite": 2.41,
-      "part_ordinateur": 0.892
+      "part_ordinateur": 0.892,
+      "sources": {
+        "Accès direct": 0.377,
+        "Recherche organique": 0.56,
+        "Sites référents": 0.063,
+        "Social organique": 0.0
+      }
     },
     {
       "id_site": 4193,
@@ -19,7 +25,13 @@
       "visites": 1078,
       "duree_moy_s": 89.1,
       "pages_par_visite": 1.63,
-      "part_ordinateur": 0.811
+      "part_ordinateur": 0.811,
+      "sources": {
+        "Accès direct": 0.181,
+        "Recherche organique": 0.77,
+        "Sites référents": 0.045,
+        "Social organique": 0.004
+      }
     },
     {
       "id_site": 1626,
@@ -28,7 +40,13 @@
       "visites": 9507,
       "duree_moy_s": 80.0,
       "pages_par_visite": 1.51,
-      "part_ordinateur": 0.871
+      "part_ordinateur": 0.871,
+      "sources": {
+        "Accès direct": 0.275,
+        "Recherche organique": 0.693,
+        "Sites référents": 0.03,
+        "Social organique": 0.001
+      }
     },
     {
       "id_site": 118,
@@ -37,14 +55,26 @@
       "visites": 548,
       "duree_moy_s": 77.5,
       "pages_par_visite": 1.94,
-      "part_ordinateur": 0.843
+      "part_ordinateur": 0.843,
+      "sources": {
+        "Accès direct": 0.251,
+        "Recherche organique": 0.721,
+        "Sites référents": 0.028,
+        "Social organique": 0.0
+      }
     }
   ],
   "sites_sans_donnees": [],
   "mediane": {
     "duree_moy_s": 84.5,
     "pages_par_visite": 1.78,
-    "part_ordinateur": 0.857
+    "part_ordinateur": 0.857,
+    "sources": {
+      "Accès direct": 0.263,
+      "Recherche organique": 0.707,
+      "Sites référents": 0.037,
+      "Social organique": 0.001
+    }
   },
   "reference_etat": {
     "nb_sites": 597,

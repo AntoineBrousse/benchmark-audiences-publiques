@@ -14,6 +14,16 @@ Critères de sélection des sites comparables : Public : collectivités ou profe
 
 Repère : durée moyenne médiane de l'ensemble des 597 sites de l'État : 1 min 12.
 
+## Sources de trafic (part des visites)
+
+| Site | Recherche organique | Accès direct | Sites référents | Social organique |
+|---|---|---|---|---|
+| territoires-climat.ademe.fr | 56% | 38% | 6% | 0% |
+| avelo.ademe.fr | 77% | 18% | 4% | 0% |
+| economie-circulaire.ademe.fr | 69% | 28% | 3% | 0% |
+| experimentationsurbaines.ademe.fr | 72% | 25% | 3% | 0% |
+| **Médiane** | **71%** | **26%** | **4%** | **0%** |
+
 ⚠️ Données sur 29 jours sur 31.
 
 Limites : mesure Eulerian (nos sites sont mesurés avec Matomo), pas de taux de rebond publié, majorité de sites ADEME, petits volumes instables.
